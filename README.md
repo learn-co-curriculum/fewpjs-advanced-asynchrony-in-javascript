@@ -8,41 +8,60 @@
 
 ## Introduction
 
-Asynchrony is a multi-layered concept, and understanding all the layers is
-essential for a web programmer who wants to create powerful and efficient
-JavaScript code. As we begin our deeper dive into the foundational layers of
-asychrony in JavaScript, we'll recall the general principles of an aysnchronous
-execution model, how that differs from a synchronous model and what it looks
-like in practice.
+Asynchrony is a concept that many developers consider to be "hard" or "weird."
+Nevertheless, it's an essential concept within JavaScript (and many other
+languages) that you must understand in order to reason about what the code is
+doing. Be patient as you work with this material and be sure to conduct
+experiments on your own to ensure your understanding.
+
+As we begin our deeper dive into the foundational layers of asynchrony in
+JavaScript, we'll review the general principles of an asynchronous execution
+model, recall how that differs from a synchronous model, and examine examples
+of what it looks like in practice.
 
 ## Define Asynchrony
 
-Let's imagine you're preparing a meal for your friends. You've settled on a menu
-of vegetarian lasagna, salad, rolls and sherbert for dessert. There are a couple
-of ways to go about this. You could put together and bake the lasagna entirely,
-then make the salad, then make the rolls, then dish the sherbert, then serve the
-meal. However, if you do it this way—waiting for each item or tasks to be
-complete before beginning the next—you risk warm food getting cold and cold food
-getting warm, and, more to the point, your friends getting irritated with you.
+Let's imagine you're preparing a meal for your friends. You've settled on a
+menu of vegetarian lasagna, salad, rolls and sherbet for dessert. There are a
+couple of ways to go about preparing your menu. You could put together and bake
+the lasagna entirely, make the salad, make the rolls, scoop out the sherbet,
+and then serve the meal.
 
-It's more sensible to work on tasks at the same: for example, making rolls and
-salad while the lasagna is baking, and dishing sherbert as guests are finishing
-dinner. This approach means you're not sitting around waiting for something to
-get done when other tasks are waiting to be done as well. This approach is also
-what characterizes asynchrony. In a programming context, it means how a program
-handles events concurrently, rather than consecutively.
+_However_, should you do it this way &mdash; waiting for each item or tasks to
+be complete before beginning the next &mdash; you risk warm food getting cold
+and cold food getting warm, and, more to the point, your friends getting
+irritated with you.
+
+It's more sensible to make small bits of progress on multiple tasks at the same
+time, rotating between the tasks as fast as possible. For example, we could
+make rolls and salad while the lasagna is baking, and dish sherbet as guests
+are finishing dinner. This approach means you're not sitting around waiting for
+something to get done when you can make progress on other tasks.
+
+This approach is also what characterizes asynchrony. In a programming context,
+it means how a program handles events concurrently ("running together"), rather
+than consecutively ("running after"). In the example above you are JavaScript:
+moving between the various food preparation tasks whenever what you're doing
+doesn't require your involvement. In the browser, while data is being fetched
+with `fetch()`, JavaScript lets the browser do other things (like animate .gifs
+or open a new tab).
+
+Let's dig deeper.
 
 ## Identify Differences Between Asynchronous and Synchronous Execution Models
 
-Let's start examining this from the point of view of a typical synchronous
-execution model. Often a program runs straight through a list of tasks. If one
-task needs a result from another task, the former has to wait for the latter to
-complete, then return. In the meantime, the program seems that it's not doing
-anything at all to the person using it. Not only is this a frustrating
-experience for that person, the process doesn't employ computer resources very
-efficiently. But if we can run tasks parallel to each other, we can get more
-completed in less time, with no apparent down time for the user—something that
-is essential for the modern, fast-paced web. So an asynchronous execution model
+Let's start examining this from the point of view of how code runs in
+synchronous-by-default languages like Ruby or Python.
+
+Often, a program runs straight through a list of tasks. If one task needs a
+result from another task, the former has to wait for the latter to complete,
+then return. In the meantime, the program seems that it's not doing anything at
+all to the person using it. Not only is this a frustrating experience for that
+person, the process doesn't employ computer resources very efficiently.
+
+However, if we run tasks parallel to each other, we get more completed in less
+time, with no apparent down-time for the user &mdash; something that is
+essential for the modern, fast-paced web. So an asynchronous execution model
 makes a lot of sense for web programming. But how does it work underneath the
 surface?
 
@@ -71,20 +90,39 @@ setTimeout(() => console.log("Hey, I made it!"), 5)
 console.log("I'm totally happy with second.")
 ```
 
-After this runs, it's clear that the value that we see come second in the code
-actually shows up at the end in the console, thanks to the `setTimeout()`
+After this runs, it's clear that the value that we see come **second** in the
+code actually shows up **last** in the console, thanks to the `setTimeout()`
 function that holds it back.
 
+But what if we were to make the `setTimeout()` delay `0` seconds versus `5`?
+
+```js
+console.log("First!")
+setTimeout(() => console.log("Hey, I made it!"), 0)
+console.log("I'm totally happy with second.")
+```
+
+The code in the `setTimeout()` **still** runs last. From JavaScript's
+perspective, it reads `setTimeout()` and says I have 1000 milliseconds in which
+to do work (that's a long time for computers; it's comparable to waiting for a
+lasagna to bake, from our example). As such, JavaScript runs the
+`console.log()` action. Eventually the `setTimeout()` finishes (hundreds of
+milliseconds later) and runs the second `console.log()` action.
+
 As we explore asynchrony in more depth, we'll get into more complicated flows,
-but you can keep this example as a foundational piece to build on as we go.
+but you can keep this example as a foundational piece to build on as we go. If
+you can verify your understanding with `setTimeout()`, you can apply the
+understanding in other asynchronous contexts.
 
 ## Conclusion
 
-Asynchrony provides us web programmers with a way to handle events in a more
+Asynchrony provides web programmers with a way to handle events in a more
 efficient way than working through them one at a time. It's also more complex,
-so it requires more thought and planning—but as we create more complex web
-experiences, both we and our users will benefit from its use.
+so it requires more thought and planning &mdash; but as we create more complex
+web experiences, both we and our users will benefit from its use.
 
 ## Resources
 
-- [Mozilla Developer Network: Introducing Async JavaScript](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Introducing)
+- [Mozilla Developer Network: Introducing Async JavaScript][async]
+
+[async]: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Introducing
