@@ -39,10 +39,11 @@ are finishing dinner. This approach means you're not sitting around waiting for
 something to get done when you can make progress on other tasks.
 
 This approach is also what characterizes asynchrony. In a programming context,
-it means how a program handles events concurrently ("running together"), rather
-than consecutively ("running after"). In the example above you are JavaScript:
-moving between the various food preparation tasks whenever what you're doing
-doesn't require your involvement. In the browser, while data is being fetched
+it means how a program handles events concurrently (Latin for "running together at the same time"), rather
+than consecutively (Latin for "running after each other"). In the cooking example above you are like JavaScript:
+moving between the various food preparation tasks. You await signals that tell
+you one task is done ("beep-beep" from the microwave; the smell of burning rolls
+from the oven; a smart-speaker triggering your lasagna timer, etc). In the browser context , while data is being fetched
 with `fetch()`, JavaScript lets the browser do other things (like animate .gifs
 or open a new tab).
 
@@ -61,14 +62,27 @@ person, the process doesn't employ computer resources very efficiently.
 
 However, if we run tasks parallel to each other, we get more completed in less
 time, with no apparent down-time for the user &mdash; something that is
-essential for the modern, fast-paced web. So an asynchronous execution model
+essential for the modern, fast-paced web experience. So an asynchronous execution model
 makes a lot of sense for web programming. But how does it work underneath the
 surface?
 
 ## Demonstrate Linear Time Flow Versus Non-Linear Time
 
-Remember `setTimeout()`? It's a great example of synchronous versus
-asynchronous.
+Let's consier `setTimeout()` It's a great example of synchronous versus
+asynchronous. Its code looks like:
+
+```js
+setTimeout(function, wait_time_in_milliseconds)
+```
+
+More concretely:
+
+```js
+setTimeout(() => console.log("Hello world"), 2000)
+```
+
+You can run this example in your console and see that after a 2-second wait, JavaScript
+prints `Hello world`.
 
 If we were to log a few things in the console in synchronous order, we'd want
 some code like this:
@@ -86,11 +100,11 @@ And now for some asynchronous action:
 
 ```js
 console.log("First!")
-setTimeout(() => console.log("Hey, I made it!"), 5)
+setTimeout(() => console.log("Hey, I made it!"), 5) // .005 second. Not very long!
 console.log("I'm totally happy with second.")
 ```
 
-After this runs, it's clear that the value that we see come **second** in the
+After this runs, we see that the value that we see come **second** in the
 code actually shows up **last** in the console, thanks to the `setTimeout()`
 function that holds it back.
 
