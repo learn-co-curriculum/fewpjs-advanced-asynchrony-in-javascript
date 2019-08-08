@@ -66,6 +66,8 @@ essential for the modern, fast-paced web experience. So an asynchronous executio
 makes a lot of sense for web programming. But how does it work underneath the
 surface?
 
+![Syncronous vs. Asynchronous execution](https://curriculum-content.s3.amazonaws.com/fewpjs/fewpjs-advanced-asynchrony-in-javascript/Image_68_Asynchronous%20Programming.png)
+
 ## Demonstrate Linear Time Flow Versus Non-Linear Time
 
 Let's consier `setTimeout()` It's a great example of synchronous versus
